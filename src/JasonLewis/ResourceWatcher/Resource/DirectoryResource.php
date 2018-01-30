@@ -3,6 +3,7 @@
 namespace JasonLewis\ResourceWatcher\Resource;
 
 use RecursiveIteratorIterator;
+use SplFileInfo;
 use RecursiveDirectoryIterator;
 use FilesystemIterator;
 use JasonLewis\ResourceWatcher\Event;
@@ -16,6 +17,15 @@ class DirectoryResource extends FileResource implements ResourceInterface
      * @var array
      */
     protected $descendants = [];
+
+    protected $subDirScanning = true;
+
+    public function __construct(SplFileInfo $resource, FilesystemHelper $files, $subDirScanning)
+    {
+        parent::__construct($resource, $files);
+        $this->subDirScanning = $subDirScanning;
+    }
+
 
     /**
      * Setup the directory resource.
@@ -34,6 +44,7 @@ class DirectoryResource extends FileResource implements ResourceInterface
      */
     public function detectChanges()
     {
+        echo "check", $this->path, PHP_EOL;
         $events = parent::detectChanges();
 
         // When a descendant file is created or deleted a modified event is fired on the
@@ -44,16 +55,18 @@ class DirectoryResource extends FileResource implements ResourceInterface
             $events = [];
         }
 
-        foreach ($this->descendants as $key => $descendant) {
-            $descendantEvents = $descendant->detectChanges();
+        if ($this->subDirScanning) {
+            foreach ($this->descendants as $key => $descendant) {
+                $descendantEvents = $descendant->detectChanges();
 
-            foreach ($descendantEvents as $event) {
-                if ($event instanceof Event && $event->getCode() == Event::RESOURCE_DELETED) {
-                    unset($this->descendants[$key]);
+                foreach ($descendantEvents as $event) {
+                    if ($event instanceof Event && $event->getCode() == Event::RESOURCE_DELETED) {
+                        unset($this->descendants[$key]);
+                    }
                 }
-            }
 
-            $events = array_merge($events, $descendantEvents);
+                $events = array_merge($events, $descendantEvents);
+            }
         }
 
         // If this directory still exists we'll check the directories descendants again for any
@@ -81,13 +94,16 @@ class DirectoryResource extends FileResource implements ResourceInterface
     {
         $descendants = [];
 
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getPath(), FilesystemIterator::SKIP_DOTS)) as $file) {
-            echo $file, "-------------", $this->getPath(), PHP_EOL;
-            if ($file->isDir() && ! in_array($file->getBasename(), array('.', '..'))) {
-                echo "new dir",  PHP_EOL;
-                $resource = new DirectoryResource($file, $this->files);
-                //return [new Event($this, Event::RESOURCE_CREATED)];
+        //foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getPath())) as $file) {
+        foreach (new RecursiveDirectoryIterator($this->getPath()) as $file) {
+            //echo $file, "-------------", realpath($file), "++++++++++++", $this->getPath(), PHP_EOL;
 
+
+            if ($file->isDir()
+                && ! in_array($file->getBasename(), array('..'))
+                && strnatcmp($this->getPath(), $file->getRealPath())!=0) {
+                echo "new dir",  PHP_EOL;
+                $resource = new DirectoryResource($file, $this->files, $this->subDirScanning);
                 $descendants[$resource->getKey()] = $resource;
             } elseif ($file->isFile()) {
                 $resource = new FileResource($file, $this->files);

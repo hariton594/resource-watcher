@@ -49,12 +49,12 @@ class Watcher
      * @param  string  $resource
      * @return \JasonLewis\ResourceWatcher\Listener
      */
-    public function watch($resource)
+    public function watch($resource, $subDirScanning=true)
     {
         if (! $this->files->exists($resource)) {
             throw new RuntimeException('Resource must exist before you can watch it.');
         } elseif ($this->files->isDirectory($resource)) {
-            $resource = new DirectoryResource(new SplFileInfo($resource), $this->files);
+            $resource = new DirectoryResource(new SplFileInfo($resource), $this->files, $subDirScanning);
 
             $resource->setupDirectory();
         } else {

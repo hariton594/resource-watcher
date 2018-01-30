@@ -64,7 +64,7 @@ class FileResource implements ResourceInterface
      */
     public function detectChanges()
     {
-
+        echo "check", $this->path, PHP_EOL;
         clearstatcache(true, $this->path);
 
         if (! $this->exists && $this->files->exists($this->path)) {

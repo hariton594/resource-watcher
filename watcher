@@ -47,7 +47,7 @@ $watcher = new JasonLewis\ResourceWatcher\Watcher($tracker, $files);
 |
 */
 
-$listener = $watcher->watch('./foo');
+$listener = $watcher->watch('./foo', false);
 
 /*
 |--------------------------------------------------------------------------
