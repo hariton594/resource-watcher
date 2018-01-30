@@ -1,6 +1,6 @@
 <?php
 
-namespace JasonLewis\ResourceWatcher\Resource;
+namespace ResourceWatcher\Resource;
 
 interface ResourceInterface
 {

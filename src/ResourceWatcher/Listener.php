@@ -1,10 +1,10 @@
 <?php
 
-namespace JasonLewis\ResourceWatcher;
+namespace ResourceWatcher;
 
 use Closure;
 use RuntimeException;
-use JasonLewis\ResourceWatcher\Resource\Resource;
+use ResourceWatcher\Resource\Resource;
 
 class Listener
 {
@@ -161,7 +161,7 @@ class Listener
     /**
      * Determine the binding for a given event.
      *
-     * @param  \JasonLewis\ResourceWatcher\Event  $event
+     * @param  \\ResourceWatcher\Event  $event
      * @return string
      */
     public function determineEventBinding(Event $event)

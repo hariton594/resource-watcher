@@ -6,10 +6,10 @@
  * Time: 20:36
  */
 
-namespace JasonLewis\ResourceWatcher\Resource;
+namespace ResourceWatcher\Resource;
 
-use JasonLewis\ResourceWatcher\FilesystemHelper;
-use JasonLewis\ResourceWatcher\Resource\ImportFolderResource;
+use ResourceWatcher\FilesystemHelper;
+use ResourceWatcher\Resource\ImportFolderResource;
 use SplFileInfo;
 
 class ImportFolderResourceCreator implements ResourceCreatorInterface

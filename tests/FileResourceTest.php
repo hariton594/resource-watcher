@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use JasonLewis\ResourceWatcher\Event;
-use JasonLewis\ResourceWatcher\Resource\FileResource;
+use ResourceWatcher\Event;
+use ResourceWatcher\Resource\FileResource;
 
 class FileResourceTest extends PHPUnit_Framework_TestCase {
 
@@ -38,7 +38,7 @@ class FileResourceTest extends PHPUnit_Framework_TestCase {
 		$resource = new FileResource(new SplFileInfo(__FILE__), $files);
 
 		$events = $resource->detectChanges();
-		$this->assertInstanceOf('JasonLewis\ResourceWatcher\Event', $event = array_pop($events));
+		$this->assertInstanceOf('ResourceWatcher\Event', $event = array_pop($events));
 		$this->assertEquals(Event::RESOURCE_CREATED, $event->getCode());
 	}
 
@@ -52,7 +52,7 @@ class FileResourceTest extends PHPUnit_Framework_TestCase {
 		$resource = new FileResource(new SplFileInfo(__FILE__), $files);
 
 		$events = $resource->detectChanges();
-		$this->assertInstanceOf('JasonLewis\ResourceWatcher\Event', $event = array_pop($events));
+		$this->assertInstanceOf('ResourceWatcher\Event', $event = array_pop($events));
 		$this->assertEquals(Event::RESOURCE_MODIFIED, $event->getCode());
 	}
 
@@ -67,7 +67,7 @@ class FileResourceTest extends PHPUnit_Framework_TestCase {
 		$resource = new FileResource(new SplFileInfo(__FILE__), $files);
 
 		$events = $resource->detectChanges();
-		$this->assertInstanceOf('JasonLewis\ResourceWatcher\Event', $event = array_pop($events));
+		$this->assertInstanceOf('ResourceWatcher\Event', $event = array_pop($events));
 		$this->assertEquals(Event::RESOURCE_DELETED, $event->getCode());
 	}
 

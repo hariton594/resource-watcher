@@ -27,13 +27,13 @@ Any changes you make to the resource will be outputted to the console.
 
 ## Quick Overview
 
-To watch resources you first need an instance of `JasonLewis\ResourceWatcher\Watcher`. This class has a few dependencies (`JasonLewis\ResourceWatcher\Tracker` and `Illuminate\Filesystem\Filesystem`) that must also be instantiated.
+To watch resources you first need an instance of `ResourceWatcher\Watcher`. This class has a few dependencies (`ResourceWatcher\Tracker` and `Illuminate\Filesystem\Filesystem`) that must also be instantiated.
 
 ```php
 $files = new Illuminate\Filesystem\Filesystem;
-$tracker = new JasonLewis\ResourceWatcher\Tracker;
+$tracker = new ResourceWatcher\Tracker;
 
-$watcher = new JasonLewis\ResourceWatcher\Watcher($tracker, $files);
+$watcher = new ResourceWatcher\Watcher($tracker, $files);
 ```
 
 Now that we have our watcher we can create a listener for a given resource.
@@ -42,9 +42,9 @@ Now that we have our watcher we can create a listener for a given resource.
 $listener = $watcher->watch('path/to/resource');
 ```
 
-When you watch a resource an instance of `JasonLewis\ResourceWatcher\Listener` is returned. With this we can now listen for certain events on a resource.
+When you watch a resource an instance of `ResourceWatcher\Listener` is returned. With this we can now listen for certain events on a resource.
 
-There are three events we can listen for: `modify`, `create`, and `delete`. The callback you give to the listener receives two parameters, the first being an implementation of `JasonLewis\ResourceWatcher\Resource\ResourceInterface` and the second being the absolute path to the resource.
+There are three events we can listen for: `modify`, `create`, and `delete`. The callback you give to the listener receives two parameters, the first being an implementation of `ResourceWatcher\Resource\ResourceInterface` and the second being the absolute path to the resource.
 
 ```php
 $listener->modify(function($resource, $path) {
@@ -60,7 +60,7 @@ $listener->onModify(function($resource, $path) {
 });
 ```
 
-You can also listen for any of these events. This time the callback receives a different set of parameters, the first being an instance of `JasonLewis\ResourceWatcher\Event` and the remaining two being the same as before.
+You can also listen for any of these events. This time the callback receives a different set of parameters, the first being an instance of `ResourceWatcher\Event` and the remaining two being the same as before.
 
 ```php
 $listener->anything(function($event, $resource, $path) {
@@ -68,7 +68,7 @@ $listener->anything(function($event, $resource, $path) {
 });
 ```
 
-> Remember that each call to `$watcher->watch()` will return an instance of `JasonLewis\ResourceWatcher\Listener`, so be sure you attach listeners to the right one!
+> Remember that each call to `$watcher->watch()` will return an instance of `ResourceWatcher\Listener`, so be sure you attach listeners to the right one!
 
 Once you're watching some resources and have your listeners set up you can start the watching process.
 
@@ -91,9 +91,9 @@ $watcher->start(1000000, null, function($watcher) {
 
 ### Laravel 4 and Laravel 5
 
-Included is a service provider for the Laravel framework. This service provider will bind an instance of `JasonLewis\ResourceWatcher\Watcher` to the application container under the `watcher` key.
+Included is a service provider for the Laravel framework. This service provider will bind an instance of `ResourceWatcher\Watcher` to the application container under the `watcher` key.
 
-Register `JasonLewis\ResourceWatcher\Integration\LaravelServiceProvider` in the array of providers in `app/config/app.php`.
+Register `ResourceWatcher\Integration\LaravelServiceProvider` in the array of providers in `app/config/app.php`.
 
 ```php
 $listener = $app['watcher']->watch('path/to/resource');

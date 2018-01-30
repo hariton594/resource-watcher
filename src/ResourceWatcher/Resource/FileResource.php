@@ -1,10 +1,10 @@
 <?php
 
-namespace JasonLewis\ResourceWatcher\Resource;
+namespace ResourceWatcher\Resource;
 
 use SplFileInfo;
-use JasonLewis\ResourceWatcher\Event;
-use JasonLewis\ResourceWatcher\FilesystemHelper;
+use ResourceWatcher\Event;
+use ResourceWatcher\FilesystemHelper;
 
 class FileResource implements ResourceInterface
 {

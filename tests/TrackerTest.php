@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use JasonLewis\ResourceWatcher\Tracker;
+use ResourceWatcher\Tracker;
 
 class TrackerTest extends PHPUnit_Framework_TestCase {
 
@@ -14,9 +14,9 @@ class TrackerTest extends PHPUnit_Framework_TestCase {
 
 	public function testResourceRegisteredWithTracker()
 	{
-		$resource = m::mock('JasonLewis\ResourceWatcher\Resource\ResourceInterface');
+		$resource = m::mock('ResourceWatcher\Resource\ResourceInterface');
 		$resource->shouldReceive('getKey')->twice()->andReturn('foo');
-		$listener = m::mock('JasonLewis\ResourceWatcher\Listener');
+		$listener = m::mock('ResourceWatcher\Listener');
 		$tracker = new Tracker;
 		$tracker->register($resource, $listener);
 		$this->assertTrue($tracker->isTracked($resource));

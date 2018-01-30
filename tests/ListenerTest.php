@@ -1,8 +1,8 @@
 <?php
 
 use Mockery as m;
-use JasonLewis\ResourceWatcher\Event;
-use JasonLewis\ResourceWatcher\Listener;
+use ResourceWatcher\Event;
+use ResourceWatcher\Listener;
 
 class ListenerTest extends PHPUnit_Framework_TestCase {
 
@@ -68,7 +68,7 @@ class ListenerTest extends PHPUnit_Framework_TestCase {
 
 	public function testDetermineEventBinding()
 	{
-		$resource = m::mock('JasonLewis\ResourceWatcher\Resource\ResourceInterface');
+		$resource = m::mock('ResourceWatcher\Resource\ResourceInterface');
 		$listener = new Listener;
 		$event = new Event($resource, Event::RESOURCE_CREATED);
 		$this->assertEquals('create', $listener->determineEventBinding($event));

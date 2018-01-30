@@ -1,11 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-#include 'src\JasonLewis\ResourceWatcher\FilesystemHelper.php';
-#include 'src\JasonLewis\ResourceWatcher\Tracker.php';
-#include 'src\JasonLewis\ResourceWatcher\Watcher.php';
-
-require_once('./src/JasonLewis/ResourceWatcher/Watcher.php');
+//require_once('./src/ResourceWatcher/Watcher.php');
 
 function __autoload($class_name) {
     require_once('./src/'.$class_name.'.php');
@@ -23,11 +19,11 @@ function __autoload($class_name) {
 |
 */
 
-//$files = new JasonLewis\ResourceWatcher\FilesystemHelper();
+//$files = new ResourceWatcher\FilesystemHelper();
 
-//$tracker = new JasonLewis\ResourceWatcher\Tracker();
+//$tracker = new ResourceWatcher\Tracker();
 
-$creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator();
+$creator = new ResourceWatcher\Resource\ImportFolderResourceCreator();
 /*
 |--------------------------------------------------------------------------
 | Instantiate Resource Watcher
@@ -38,7 +34,7 @@ $creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator()
 |
 */
 
-$watcher = \JasonLewis\ResourceWatcher\Watcher::getInstance();
+$watcher = ResourceWatcher\Watcher::getInstance();
 $watcher->setResourceCreator($creator);
 /*
 |--------------------------------------------------------------------------
@@ -104,13 +100,13 @@ $listener->onModify(function ($resource, $path) {
 
 $listener->onAnything(function ($event, $resource, $path) {
     switch ($event->getCode()) {
-        case JasonLewis\ResourceWatcher\Event::RESOURCE_DELETED:
+        case ResourceWatcher\Event::RESOURCE_DELETED:
             echo "{$path} was deleted (from anything listener).".PHP_EOL;
             break;
-        case JasonLewis\ResourceWatcher\Event::RESOURCE_MODIFIED:
+        case ResourceWatcher\Event::RESOURCE_MODIFIED:
             echo "{$path} was modified (from anything listener).".PHP_EOL;
             break;
-        case JasonLewis\ResourceWatcher\Event::RESOURCE_CREATED:
+        case ResourceWatcher\Event::RESOURCE_CREATED:
             echo "{$path} was created (from anything listener).".PHP_EOL;
             break;
     }

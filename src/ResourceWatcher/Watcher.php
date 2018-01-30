@@ -1,20 +1,20 @@
-<?php namespace JasonLewis\ResourceWatcher;
+<?php namespace ResourceWatcher;
 
 use Closure;
-use JasonLewis\ResourceWatcher\Resource\DefaultResourceCreator;
-use JasonLewis\ResourceWatcher\Resource\ResourceCreatorInterface;
+use ResourceWatcher\Resource\DefaultResourceCreator;
+use ResourceWatcher\Resource\ResourceCreatorInterface;
 use SplFileInfo;
 use RuntimeException;
-use JasonLewis\ResourceWatcherFilesystemHelper;
-use JasonLewis\ResourceWatcher\Resource\FileResource;
-use JasonLewis\ResourceWatcher\Resource\DirectoryResource;
+use \ResourceWatcherFilesystemHelper;
+use ResourceWatcher\Resource\FileResource;
+use ResourceWatcher\Resource\DirectoryResource;
 
 class Watcher
 {
     /**
      * Tracker instance.
      *
-     * @var \JasonLewis\ResourceWatcher\Tracker
+     * @var \\ResourceWatcher\Tracker
      */
     protected $tracker;
 
@@ -62,7 +62,7 @@ class Watcher
      * Register a resource to be watched.
      *
      * @param  string  $resource
-     * @return \JasonLewis\ResourceWatcher\Listener
+     * @return \\ResourceWatcher\Listener
      */
     public function watch($resource)
     {
@@ -135,7 +135,7 @@ class Watcher
     /**
      * Get the tracker instance.
      *
-     * @return \JasonLewis\ResourceWatcher\Tracker
+     * @return \\ResourceWatcher\Tracker
      */
     public function getTracker()
     {

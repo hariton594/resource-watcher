@@ -6,9 +6,9 @@
  * Time: 20:22
  */
 
-namespace JasonLewis\ResourceWatcher\Resource;
+namespace ResourceWatcher\Resource;
 
-use JasonLewis\ResourceWatcher\FilesystemHelper;
+use ResourceWatcher\FilesystemHelper;
 use SplFileInfo;
 
 interface ResourceCreatorInterface

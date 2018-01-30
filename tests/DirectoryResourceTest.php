@@ -2,9 +2,9 @@
 
 use Mockery as m;
 use Illuminate\Filesystem\Filesystem;
-use JasonLewis\ResourceWatcher\Event;
-use JasonLewis\ResourceWatcher\Resource\FileResource;
-use JasonLewis\ResourceWatcher\Resource\DirectoryResource;
+use ResourceWatcher\Event;
+use ResourceWatcher\Resource\FileResource;
+use ResourceWatcher\Resource\DirectoryResource;
 
 class DirectoryResourceTest extends PHPUnit_Framework_TestCase {
 
@@ -34,7 +34,7 @@ class DirectoryResourceTest extends PHPUnit_Framework_TestCase {
 		$resource->setupDirectory();
 
 		$events = $resource->detectChanges();
-		$this->assertInstanceOf('JasonLewis\ResourceWatcher\Event', $event = array_pop($events));
+		$this->assertInstanceOf('ResourceWatcher\Event', $event = array_pop($events));
 		$this->assertEquals(Event::RESOURCE_CREATED, $event->getCode());
 	}
 

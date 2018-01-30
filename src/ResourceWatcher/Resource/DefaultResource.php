@@ -6,7 +6,7 @@
  * Time: 21:24
  */
 
-namespace JasonLewis\ResourceWatcher\Resource;
+namespace ResourceWatcher\Resource;
 
 
 class DefaultResource implements ResourceInterface

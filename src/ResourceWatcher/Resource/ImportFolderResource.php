@@ -6,7 +6,7 @@
  * Time: 20:04
  */
 
-namespace JasonLewis\ResourceWatcher\Resource;
+namespace ResourceWatcher\Resource;
 
 use RecursiveDirectoryIterator;
 

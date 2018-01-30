@@ -1,6 +1,6 @@
 <?php
 
-namespace JasonLewis\ResourceWatcher;
+namespace ResourceWatcher;
 
 
 class FilesystemHelper
