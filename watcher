@@ -5,6 +5,8 @@
 #include 'src\JasonLewis\ResourceWatcher\Tracker.php';
 #include 'src\JasonLewis\ResourceWatcher\Watcher.php';
 
+require_once('./src/JasonLewis/ResourceWatcher/Watcher.php');
+
 function __autoload($class_name) {
     require_once('./src/'.$class_name.'.php');
 }
@@ -21,9 +23,9 @@ function __autoload($class_name) {
 |
 */
 
-$files = new JasonLewis\ResourceWatcher\FilesystemHelper();
+//$files = new JasonLewis\ResourceWatcher\FilesystemHelper();
 
-$tracker = new JasonLewis\ResourceWatcher\Tracker();
+//$tracker = new JasonLewis\ResourceWatcher\Tracker();
 
 $creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator();
 /*
@@ -36,7 +38,7 @@ $creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator()
 |
 */
 
-$watcher = new JasonLewis\ResourceWatcher\Watcher($tracker, $files);
+$watcher = \JasonLewis\ResourceWatcher\Watcher::getInstance();
 $watcher->setResourceCreator($creator);
 /*
 |--------------------------------------------------------------------------

@@ -34,19 +34,24 @@ class Watcher
      */
     protected $watching = false;
 
-    /**
-     * Create a new watcher instance.
-     *
-     * @param  \JasonLewis\ResourceWatcher\Tracker  $tracker
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @return void
-     */
-    public function __construct(Tracker $tracker, FilesystemHelper $files)
-    {
-        $this->tracker = $tracker;
-        $this->files = $files;
+    private static $_instance = null;
 
-        $this->resourceCreator = new DefaultResourceCreator($files);
+    private function __construct() {
+        $this->tracker = Tracker::getInstance();
+        $this->files = new FilesystemHelper();
+
+        $this->resourceCreator = new DefaultResourceCreator($this->files);
+    }
+
+    protected function __clone() {
+    }
+
+    static public function getInstance() {
+        if(is_null(self::$_instance))
+        {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
     }
 
     public function setResourceCreator(ResourceCreatorInterface $resourceCreator) {
