@@ -3,7 +3,7 @@
 use Closure;
 use SplFileInfo;
 use RuntimeException;
-use Illuminate\Filesystem\Filesystem;
+use JasonLewis\ResourceWatcherFilesystemHelper;
 use JasonLewis\ResourceWatcher\Resource\FileResource;
 use JasonLewis\ResourceWatcher\Resource\DirectoryResource;
 
@@ -37,7 +37,7 @@ class Watcher
      * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
-    public function __construct(Tracker $tracker, Filesystem $files)
+    public function __construct(Tracker $tracker, FilesystemHelper $files)
     {
         $this->tracker = $tracker;
         $this->files = $files;

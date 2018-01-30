@@ -4,8 +4,9 @@ namespace JasonLewis\ResourceWatcher\Resource;
 
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use FilesystemIterator;
 use JasonLewis\ResourceWatcher\Event;
-use Illuminate\Filesystem\Filesystem;
+use JasonLewis\ResourceWatcher\FilesystemHelper;
 
 class DirectoryResource extends FileResource implements ResourceInterface
 {
@@ -59,6 +60,7 @@ class DirectoryResource extends FileResource implements ResourceInterface
         // new descendants.
         if ($this->exists) {
             foreach ($this->detectDirectoryDescendants() as $key => $descendant) {
+                echo "----",$descendant->path, PHP_EOL;
                 if (! isset($this->descendants[$key])) {
                     $this->descendants[$key] = $descendant;
 
@@ -79,9 +81,12 @@ class DirectoryResource extends FileResource implements ResourceInterface
     {
         $descendants = [];
 
-        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getPath())) as $file) {
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getPath(), FilesystemIterator::SKIP_DOTS)) as $file) {
+            echo $file, "-------------", $this->getPath(), PHP_EOL;
             if ($file->isDir() && ! in_array($file->getBasename(), array('.', '..'))) {
+                echo "new dir",  PHP_EOL;
                 $resource = new DirectoryResource($file, $this->files);
+                //return [new Event($this, Event::RESOURCE_CREATED)];
 
                 $descendants[$resource->getKey()] = $resource;
             } elseif ($file->isFile()) {

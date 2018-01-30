@@ -1,17 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Register Autoloader
-|--------------------------------------------------------------------------
-|
-| Require in the Composer autoloading script so that all the required
-| classes for the Resource Watcher are loaded in.
-|
-*/
+#include 'src\JasonLewis\ResourceWatcher\FilesystemHelper.php';
+#include 'src\JasonLewis\ResourceWatcher\Tracker.php';
+#include 'src\JasonLewis\ResourceWatcher\Watcher.php';
 
-require __DIR__.'/vendor/autoload.php';
+function __autoload($class_name) {
+    require_once('./src/'.$class_name.'.php');
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +21,7 @@ require __DIR__.'/vendor/autoload.php';
 |
 */
 
-$files = new Illuminate\Filesystem\Filesystem();
+$files = new JasonLewis\ResourceWatcher\FilesystemHelper();
 
 $tracker = new JasonLewis\ResourceWatcher\Tracker();
 
@@ -50,7 +47,7 @@ $watcher = new JasonLewis\ResourceWatcher\Watcher($tracker, $files);
 |
 */
 
-$listener = $watcher->watch('foo');
+$listener = $watcher->watch('./foo');
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +57,8 @@ $listener = $watcher->watch('foo');
 | Listen for any create events that are fired.
 |
 */
+
+echo "init";
 
 $listener->onCreate(function ($resource, $path) {
     echo "{$path} was created.".PHP_EOL;

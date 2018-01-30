@@ -4,7 +4,7 @@ namespace JasonLewis\ResourceWatcher\Resource;
 
 use SplFileInfo;
 use JasonLewis\ResourceWatcher\Event;
-use Illuminate\Filesystem\Filesystem;
+use JasonLewis\ResourceWatcher\FilesystemHelper;
 
 class FileResource implements ResourceInterface
 {
@@ -25,7 +25,6 @@ class FileResource implements ResourceInterface
     /**
      * Illuminate filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
 
@@ -47,10 +46,9 @@ class FileResource implements ResourceInterface
      * Create a new resource instance.
      *
      * @param  \SplFileInfo  $resource
-     * @param  \Illuminate\Filesystem\Filesystem  $files
      * @return void
      */
-    public function __construct(SplFileInfo $resource, Filesystem $files)
+    public function __construct(SplFileInfo $resource, FilesystemHelper $files)
     {
         $this->resource = $resource;
         $this->path = $resource->getRealPath();
@@ -66,6 +64,7 @@ class FileResource implements ResourceInterface
      */
     public function detectChanges()
     {
+
         clearstatcache(true, $this->path);
 
         if (! $this->exists && $this->files->exists($this->path)) {
