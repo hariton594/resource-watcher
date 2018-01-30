@@ -18,15 +18,6 @@ class DirectoryResource extends FileResource implements ResourceInterface
      */
     protected $descendants = [];
 
-    protected $subDirScanning = true;
-
-    public function __construct(SplFileInfo $resource, FilesystemHelper $files, $subDirScanning)
-    {
-        parent::__construct($resource, $files);
-        $this->subDirScanning = $subDirScanning;
-    }
-
-
     /**
      * Setup the directory resource.
      *
@@ -54,8 +45,6 @@ class DirectoryResource extends FileResource implements ResourceInterface
         if (! empty($events) && $events[0]->getCode() == Event::RESOURCE_MODIFIED) {
             $events = [];
         }
-
-        if ($this->subDirScanning) {
             foreach ($this->descendants as $key => $descendant) {
                 $descendantEvents = $descendant->detectChanges();
 
@@ -67,8 +56,13 @@ class DirectoryResource extends FileResource implements ResourceInterface
 
                 $events = array_merge($events, $descendantEvents);
             }
-        }
 
+        $events = $this->checkNewDescendants($events);
+
+        return $events;
+    }
+
+    protected function checkNewDescendants($events) {
         // If this directory still exists we'll check the directories descendants again for any
         // new descendants.
         if ($this->exists) {
@@ -94,6 +88,7 @@ class DirectoryResource extends FileResource implements ResourceInterface
     {
         $descendants = [];
 
+        echo "cccc", PHP_EOL;
         //foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getPath())) as $file) {
         foreach (new RecursiveDirectoryIterator($this->getPath()) as $file) {
             //echo $file, "-------------", realpath($file), "++++++++++++", $this->getPath(), PHP_EOL;
@@ -103,7 +98,7 @@ class DirectoryResource extends FileResource implements ResourceInterface
                 && ! in_array($file->getBasename(), array('..'))
                 && strnatcmp($this->getPath(), $file->getRealPath())!=0) {
                 echo "new dir",  PHP_EOL;
-                $resource = new DirectoryResource($file, $this->files, $this->subDirScanning);
+                $resource = new DirectoryResource($file, $this->files);
                 $descendants[$resource->getKey()] = $resource;
             } elseif ($file->isFile()) {
                 $resource = new FileResource($file, $this->files);

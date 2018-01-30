@@ -25,6 +25,7 @@ $files = new JasonLewis\ResourceWatcher\FilesystemHelper();
 
 $tracker = new JasonLewis\ResourceWatcher\Tracker();
 
+$creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator($files);
 /*
 |--------------------------------------------------------------------------
 | Instantiate Resource Watcher
@@ -36,7 +37,7 @@ $tracker = new JasonLewis\ResourceWatcher\Tracker();
 */
 
 $watcher = new JasonLewis\ResourceWatcher\Watcher($tracker, $files);
-
+$watcher->setResourceCreator($creator);
 /*
 |--------------------------------------------------------------------------
 | Watch For Changes
@@ -47,7 +48,7 @@ $watcher = new JasonLewis\ResourceWatcher\Watcher($tracker, $files);
 |
 */
 
-$listener = $watcher->watch('./foo', false);
+$listener = $watcher->watch('./foo');
 
 /*
 |--------------------------------------------------------------------------
@@ -129,4 +130,4 @@ $listener->onAnything(function ($event, $resource, $path) {
 |
 */
 
-$watcher->start();
+$watcher->start(1000000);

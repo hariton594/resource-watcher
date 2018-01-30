@@ -1,6 +1,8 @@
 <?php namespace JasonLewis\ResourceWatcher;
 
 use Closure;
+use JasonLewis\ResourceWatcher\Resource\DefaultResourceCreator;
+use JasonLewis\ResourceWatcher\Resource\ResourceCreatorInterface;
 use SplFileInfo;
 use RuntimeException;
 use JasonLewis\ResourceWatcherFilesystemHelper;
@@ -23,6 +25,8 @@ class Watcher
      */
     protected $files;
 
+    protected $resourceCreator;
+
     /**
      * Indicates if the watcher is watching.
      *
@@ -41,6 +45,12 @@ class Watcher
     {
         $this->tracker = $tracker;
         $this->files = $files;
+
+        $this->resourceCreator = new DefaultResourceCreator($files);
+    }
+
+    public function setResourceCreator(ResourceCreatorInterface $resourceCreator) {
+        $this->resourceCreator = $resourceCreator;
     }
 
     /**
@@ -49,17 +59,14 @@ class Watcher
      * @param  string  $resource
      * @return \JasonLewis\ResourceWatcher\Listener
      */
-    public function watch($resource, $subDirScanning=true)
+    public function watch($resource)
     {
         if (! $this->files->exists($resource)) {
             throw new RuntimeException('Resource must exist before you can watch it.');
-        } elseif ($this->files->isDirectory($resource)) {
-            $resource = new DirectoryResource(new SplFileInfo($resource), $this->files, $subDirScanning);
-
-            $resource->setupDirectory();
-        } else {
-            $resource = new FileResource(new SplFileInfo($resource), $this->files);
         }
+
+        $resource = $this->resourceCreator->createResource($resource);
+
 
         // The listener gives users the ability to bind listeners on the events
         // created when watching a file or directory. We'll give the listener

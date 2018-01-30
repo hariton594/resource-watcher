@@ -85,6 +85,16 @@ class FileResource implements ResourceInterface
         return [];
     }
 
+    protected function detectExist() {
+        if ($this->exists && ! $this->files->exists($this->path)) {
+            $this->exists = false;
+
+            return [new Event($this, Event::RESOURCE_DELETED)];
+        }
+
+        return [];
+    }
+
     /**
      * Determine if the resource has been modified.
      *
