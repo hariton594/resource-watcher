@@ -13,23 +13,13 @@ use SplFileInfo;
 
 class DefaultResourceCreator implements ResourceCreatorInterface
 {
-
-    protected $files;
-
-    public function __construct(FilesystemHelper $files)
+    public function createDirectory(SplFileInfo $resource, FilesystemHelper $files)
     {
-        $this->files = $files;
+        return new DirectoryResource(new SplFileInfo($resource), $files);
     }
 
-    public function createResource($resource)
+    public function createFile(SplFileInfo $resource, FilesystemHelper $files)
     {
-        if ($this->files->isDirectory($resource)) {
-            $resource = new DirectoryResource(new SplFileInfo($resource), $this->files);
-            $resource->setupDirectory();
-        } else {
-            $resource = new FileResource(new SplFileInfo($resource), $this->files);
-        }
-
-        return $resource;
+        return new FileResource(new SplFileInfo($resource), $this->files);
     }
 }

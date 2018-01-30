@@ -8,8 +8,11 @@
 
 namespace JasonLewis\ResourceWatcher\Resource;
 
+use JasonLewis\ResourceWatcher\FilesystemHelper;
+use SplFileInfo;
 
 interface ResourceCreatorInterface
 {
-    public function createResource($resource);
+    public function createDirectory(SplFileInfo $resource, FilesystemHelper $files);
+    public function createFile(SplFileInfo $resource, FilesystemHelper $files);
 }

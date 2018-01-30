@@ -14,23 +14,13 @@ use SplFileInfo;
 
 class ImportFolderResourceCreator implements ResourceCreatorInterface
 {
-    protected $files;
-
-    public function __construct(FilesystemHelper $files)
+    public function createDirectory(SplFileInfo $resource, FilesystemHelper $files)
     {
-        $this->files = $files;
+        return new ImportFolderResource(new SplFileInfo($resource), $files);
     }
 
-    public function createResource($resource)
+    public function createFile(SplFileInfo $resource, FilesystemHelper $files)
     {
-        if ($this->files->isDirectory($resource)) {
-            echo "ImportFolderResourceCreator", PHP_EOL;
-            $resource = new ImportFolderResource(new SplFileInfo($resource), $this->files);
-            $resource->setupDirectory();
-        } else {
-            throw new RuntimeException('Resource must be directory.');
-        }
-
-        return $resource;
+        return new DefaultResource(new SplFileInfo($resource), $this->files);
     }
 }

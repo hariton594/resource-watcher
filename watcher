@@ -25,7 +25,7 @@ $files = new JasonLewis\ResourceWatcher\FilesystemHelper();
 
 $tracker = new JasonLewis\ResourceWatcher\Tracker();
 
-$creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator($files);
+$creator = new JasonLewis\ResourceWatcher\Resource\ImportFolderResourceCreator();
 /*
 |--------------------------------------------------------------------------
 | Instantiate Resource Watcher

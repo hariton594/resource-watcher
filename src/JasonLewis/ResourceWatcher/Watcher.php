@@ -65,8 +65,12 @@ class Watcher
             throw new RuntimeException('Resource must exist before you can watch it.');
         }
 
-        $resource = $this->resourceCreator->createResource($resource);
-
+        if ($this->files->isDirectory($resource)) {
+            $resource = $this->resourceCreator->createDirectory(new SplFileInfo($resource), $this->files);
+            $resource->setupDirectory();
+        } else {
+            $resource = $this->resourceCreator->createFile(new SplFileInfo($resource), $this->files);
+        }
 
         // The listener gives users the ability to bind listeners on the events
         // created when watching a file or directory. We'll give the listener

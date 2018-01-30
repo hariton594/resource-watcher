@@ -39,24 +39,20 @@ class ImportFolderResource extends DirectoryResource
         return $events;
     }
 
+
     protected function detectDirectoryDescendants()
     {
         $descendants = [];
 
-        //foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->getPath())) as $file) {
         foreach (new RecursiveDirectoryIterator($this->getPath()) as $file) {
-            //echo $file, "-------------", realpath($file), "++++++++++++", $this->getPath(), PHP_EOL;
-
-
             if ($file->isDir()
                 && ! in_array($file->getBasename(), array('..'))
                 && strnatcmp($this->getPath(), $file->getRealPath())!=0) {
-                echo "new dir", PHP_EOL;
                 $resource = new ImportFolderResource($file, $this->files);
                 $descendants[$resource->getKey()] = $resource;
             }
         }
-
         return $descendants;
     }
+
 }
